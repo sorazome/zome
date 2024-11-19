@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEFLスコア判定サイト</title>
+</head>
+<body>
+    <h1>俺は最高で〇〇点取りましたけど？</h1>
+    <form id="scoreForm">
+        <label for="scoreInput">スコアを入力してください:</label>
+        <input type="number" id="scoreInput" name="scoreInput" required>
+        <button type="button" onclick="checkInitialScore()">送信</button>
+    </form>
+    <p id="result"></p>
+    <div id="secondCheckContainer" style="display: none;">
+        <button type="button" onclick="finalScoreCheck()">再確認送信</button>
+    </div>
+    <p id="finalResult"></p>
+
+    <script>
+        function checkInitialScore() {
+            const score = parseInt(document.getElementById("scoreInput").value, 10);
+            const result = document.getElementById("result");
+            const secondCheckContainer = document.getElementById("secondCheckContainer");
+
+            // スコアが5の倍数かつ10～990の範囲内かチェック
+            if (score % 5 !== 0 || score < 10 || score > 990) {
+                result.textContent = "TOEFLと間違えたんだよ";
+                // 再確認用の送信ボタンを表示
+                secondCheckContainer.style.display = "block";
+            } else {
+                // 有効なスコア範囲の場合のみ再確認ボタンを非表示に
+                secondCheckContainer.style.display = "none";
+                result.textContent = `入力されたスコア「${score}」は有効です。`;
+                document.getElementById("finalResult").textContent = ""; // 再確認結果をクリア
+            }
+        }
+
+        function finalScoreCheck() {
+            const score = parseInt(document.getElementById("scoreInput").value, 10);
+            const finalResult = document.getElementById("finalResult");
+
+            // スコアが0～677の範囲かチェック
+            if (score >= 0 && score <= 677) {
+                finalResult.textContent = `入力されたスコア「${score}」は0～677の範囲内です。`;
+            } else {
+                finalResult.textContent = "TOEFLの満点は120or300or677だボケカス";
+            }
+        }
+    </script>
+</body>
+</html>
